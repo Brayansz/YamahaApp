@@ -1,8 +1,7 @@
 package modelo;
 
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class DaoCliente extends Conexion{
     public boolean agregar(DtoCliente cliente) {
@@ -67,13 +66,13 @@ public class DaoCliente extends Conexion{
         }
     }
     
-    public boolean eliminar(DtoCliente cliente) {
+    public boolean eliminar(String filtro) {
         PreparedStatement ops = null;
         Connection con = getConexion();
         String stm = "DELETE FROM cliente WHERE identificacion=?" ;
         try {
             ops = con.prepareStatement(stm);
-            ops.setString(1, cliente.getIdentificacion());
+            ops.setString(1, filtro);
             ops.execute();
             return true;
         } catch (SQLException e) {

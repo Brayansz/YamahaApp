@@ -23,7 +23,7 @@ public class DaoMoto extends Conexion {
     public boolean modificar(DtoMoto moto) {
         PreparedStatement ops;
         Connection con = getConexion();
-        String stm = "UPDATE moto SET modelo=?, linea=?, cilindraje=? WHERE id=?" ;
+        String stm = "UPDATE moto SET modelo=?, linea=?, cilindraje=? WHERE id=?";
         try {
             ops = con.prepareStatement(stm);
             ops.setInt(1, moto.getModelo());
@@ -61,13 +61,15 @@ public class DaoMoto extends Conexion {
         }
     }
     
-    public boolean eliminar(DtoMoto moto) {
-        PreparedStatement ops = null;
+    public boolean eliminar(int filtro) {
+        
         Connection con = getConexion();
-        String stm = "DELETE FROM moto WHERE id=?" ;
+        
+        String stm = "DELETE FROM moto WHERE id= ?";
+        
         try {
-            ops = con.prepareStatement(stm);
-            ops.setInt(1, moto.getId());
+            PreparedStatement ops = con.prepareStatement(stm);
+            ops.setInt(1, filtro);
             ops.execute();
             return true;
         } catch (SQLException e) {

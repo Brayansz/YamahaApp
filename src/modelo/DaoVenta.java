@@ -9,14 +9,15 @@ public class DaoVenta extends Conexion {
         
         PreparedStatement ops;
         Connection con = getConexion();
-        String stm = "INSERT INTO venta (id_vendedor, id_cliente, id_tipo_pago, fecha, monto) VALUES(?,?,?,?,?)";
+        String stm = "INSERT INTO venta (id_vendedor, id_moto, id_cliente, id_tipo_pago, fecha, monto) VALUES(?,?,?,?,?,?)";
         try{
             ops = con.prepareStatement(stm);
             ops.setString(1, p.getIdVendedor());
-            ops.setString(2, p.getIdCliente());
-            ops.setInt(3, p.getIdTipoPago());
-            ops.setDate(4, (Date) p.getFecha());
-            ops.setLong(5, p.getMonto());
+            ops.setInt(2, p.getIdMoto());
+            ops.setString(3, p.getIdCliente());
+            ops.setInt(4, p.getIdTipoPago());
+            ops.setDate(5, (Date) p.getFecha());
+            ops.setLong(6, p.getMonto());
             ops.execute();
             return true;
         }catch(SQLException e){
@@ -71,14 +72,14 @@ public class DaoVenta extends Conexion {
         }        
     }
     
-    public boolean eliminar(DtoVenta p){
+    public boolean eliminar(int filtro){
         
         PreparedStatement ops;
         Connection con = getConexion();
         String stm = "DELETE FROM venta WHERE id=?";
         try{
             ops = con.prepareStatement(stm);
-            ops.setInt(1, p.getId());            
+            ops.setInt(1, filtro);            
             ops.execute();
             return true;
         }catch(SQLException e){

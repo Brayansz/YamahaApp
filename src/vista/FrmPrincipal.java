@@ -21,6 +21,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public FrmPrincipal() {
         initComponents();
         setFecha();
+        Vprincipal ventana = new Vprincipal(); 
+        ventana.setSize(740, 510);
+        ventana.setLocation(0, 0);
+        content.removeAll();
+        content.add(ventana, BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
     }
 
     /**
@@ -403,7 +410,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         Vprincipal ventana = new Vprincipal(); 
         ventana.setSize(740, 510);
         ventana.setLocation(0, 0);
-       
         content.removeAll();
         content.add(ventana, BorderLayout.CENTER);
         content.revalidate();

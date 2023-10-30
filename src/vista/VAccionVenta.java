@@ -7,6 +7,7 @@ package vista;
 import java.awt.Color;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -22,6 +23,7 @@ public class VAccionVenta extends javax.swing.JFrame {
      * Creates new form FrmInternalCrearCliente
      */
     int accion = 0; // Accion a relizar: 0 = Crear, 1 = Modificar, 2 = Eliminar
+
     public VAccionVenta(int accion) {
         initComponents();
         if (accion == 1) {
@@ -33,6 +35,18 @@ public class VAccionVenta extends javax.swing.JFrame {
             lblTitle.setText("Eliminar venta");
             labelCrear.setText("Eliminar");
             txtId.setForeground(Color.black);
+            txtCliente.setEnabled(false);
+            txtCliente.setText("Omite este campo");
+            txtFecha.setEnabled(false);
+            txtFecha.setText("Omite este campo");
+            txtMonto.setEnabled(false);
+            txtMonto.setText("Omite este campo");
+            txtMoto.setEnabled(false);
+            txtMoto.setText("Omite este campo");
+            txtTipoPago.setEnabled(false);
+            txtTipoPago.setText("Omite este campo");
+            txtVendedor.setEnabled(false);
+            txtVendedor.setText("Omite este campo");
         } else {
             txtId.setEnabled(false);
             txtId.setText("Omite este campo");
@@ -333,26 +347,27 @@ public class VAccionVenta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAccionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAccionMouseClicked
+
         DaoVenta crud = new DaoVenta();
         DtoVenta venta = new DtoVenta();
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        
-        venta.setIdVendedor(txtVendedor.getText());
-        venta.setIdMoto(Integer.parseInt(txtMoto.getText()));
-        venta.setIdCliente(txtCliente.getText());
-        venta.setIdTipoPago(Integer.parseInt(txtTipoPago.getText()));
-        try {
-            venta.setFecha(formato.parse(txtFecha.getText()));
-        } catch (ParseException ex) {
-            Logger.getLogger(VAccionVenta.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        venta.setMonto(Long.parseLong(txtMonto.getText()));
-        
-        
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
+
         switch (this.accion) {
             case 0:
+                venta.setIdVendedor(txtVendedor.getText());
+                venta.setIdMoto(Integer.parseInt(txtMoto.getText()));
+                venta.setIdCliente(txtCliente.getText());
+                venta.setIdTipoPago(Integer.parseInt(txtTipoPago.getText()));
+                try {
+                    java.util.Date utilDate = formato.parse(txtFecha.getText());
+                    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); // Convertir a java.sql.Date
+                    venta.setFecha(sqlDate);
+                } catch (ParseException ex) {
+                    System.out.println("Error al parsear la fecha" + ex);
+                }
+                venta.setMonto(Long.parseLong(txtMonto.getText()));
                 if (crud.agregar(venta)) {
-                    JOptionPane.showMessageDialog(this, "Exito: venta realizada por " + txtVendedor.getText() +" agregada con exito.");
+                    JOptionPane.showMessageDialog(this, "Exito: venta realizada por " + txtVendedor.getText() + " agregada con exito.");
                 } else {
                     JOptionPane.showMessageDialog(this, "Error: la venta no ha sido agregada.");
                 }
@@ -365,7 +380,7 @@ public class VAccionVenta extends javax.swing.JFrame {
                 }
                 break;
             case 2:
-                if (crud.eliminar(venta)) {
+                if (crud.eliminar(Integer.parseInt(txtId.getText()))) {
                     JOptionPane.showMessageDialog(this, "Exito: venta eliminada con exito.");
                 } else {
                     JOptionPane.showMessageDialog(this, "Error: la venta no ha sido eliminada.");
@@ -381,10 +396,10 @@ public class VAccionVenta extends javax.swing.JFrame {
     private void btnConsularMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConsularMouseClicked
         DaoVenta crud = new DaoVenta();
         DtoVenta venta = new DtoVenta();
-        
+
         venta.setId(Integer.parseInt(txtId.getText()));
         if (crud.consultar(venta)) {
-            
+
             txtId.setText(String.valueOf(venta.getId()));
             txtVendedor.setText(venta.getIdVendedor());
             txtMoto.setText(String.valueOf(venta.getIdMoto()));
@@ -392,7 +407,7 @@ public class VAccionVenta extends javax.swing.JFrame {
             txtTipoPago.setText(String.valueOf(venta.getIdTipoPago()));
             txtFecha.setText(String.valueOf(venta.getFecha()));
             txtMonto.setText(String.valueOf(venta.getMonto()));
-            
+
         } else {
             JOptionPane.showMessageDialog(this, "Error: venta no encontrado en la base de datos.");
         }

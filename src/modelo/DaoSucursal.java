@@ -62,14 +62,14 @@ public class DaoSucursal extends Conexion{
         }
     }
 
-    public boolean eliminar(DtoSucursal sucursal){
+    public boolean eliminar(int filtro){
         PreparedStatement ops = null;
         Connection con = getConexion();
         String stm = "DELETE FROM sucursal WHERE id = ?";
         
         try {
             ops = con.prepareStatement(stm);
-            ops.setInt(1, sucursal.getId());
+            ops.setInt(1, filtro);
             ops.execute();
             
             return true;    
@@ -87,7 +87,7 @@ public class DaoSucursal extends Conexion{
         // En caso de que se haga una busqueda
         if (filtro != "") filtro = "WHERE "+ filtro;
         
-        String cadenaSQL = "SELECT * FROM sucursal"+ filtro;
+        String cadenaSQL = "SELECT * FROM sucursal "+ filtro;
         
         try {
             preparedStatement = connection.prepareStatement(cadenaSQL);

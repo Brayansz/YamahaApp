@@ -264,7 +264,7 @@ public class VSucursales extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
-        cargarDatos("id=" + txtBuscar.getText());
+        cargarDatos("id = " + txtBuscar.getText());
     }//GEN-LAST:event_btnBuscarMouseClicked
 
     private void btnCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearMouseClicked
@@ -317,7 +317,7 @@ public class VSucursales extends javax.swing.JPanel {
 
     private void cargarDatos(String filtro) {
         DaoSucursal daoSucursal = new DaoSucursal();
-        ResultSet sucursales = daoSucursal.getSucursales("");
+        ResultSet sucursales = daoSucursal.getSucursales(filtro);
         int size, i = 0;
         try {
             if (sucursales != null) {
@@ -336,7 +336,7 @@ public class VSucursales extends javax.swing.JPanel {
                     tableModel.setValueAt(sucursales.getString("id_ciudad"), i, 2);
                     i++;
                 }
-            } else if (filtro != "") {
+            } else if (!filtro.equals("")) {
                 JOptionPane.showMessageDialog(this, "Error: No exite en la base de datos");
             }
         } catch (SQLException ex) {

@@ -30,6 +30,10 @@ public class VAccionSucursal extends javax.swing.JFrame {
             this.accion = accion;
             lblTitle.setText("Eliminar sucursal");
             labelCrear.setText("Eliminar");
+            txtCiudad.setEnabled(false);
+            txtCiudad.setText("Omite este campo");
+            txtNombre.setEnabled(false);
+            txtNombre.setText("Omite este campo");
         } else {
             txtId.setEnabled(false);
             txtId.setText("Omite este campo");
@@ -271,12 +275,13 @@ public class VAccionSucursal extends javax.swing.JFrame {
         DaoSucursal crud = new DaoSucursal();
         DtoSucursal sucursal = new DtoSucursal();
         
-        sucursal.setId(Integer.parseInt(txtId.getText()));
-        sucursal.setNombre(txtNombre.getText());
-        sucursal.setIdCiudad(Integer.parseInt(txtCiudad.getText()));
+        
+        
         
         switch (this.accion) {
             case 0:
+                sucursal.setNombre(txtNombre.getText());
+                sucursal.setIdCiudad(Integer.parseInt(txtCiudad.getText()));
                 if (crud.agregar(sucursal)) {
                     JOptionPane.showMessageDialog(this, "Exito: sucursal "+ txtNombre.getText() + " " + txtCiudad.getText() +" agregado con exito.");
                 } else {
@@ -291,7 +296,7 @@ public class VAccionSucursal extends javax.swing.JFrame {
                 }
                 break;
             case 2:
-                if (crud.eliminar(sucursal)) {
+                if (crud.eliminar(Integer.parseInt(txtId.getText()))){
                     JOptionPane.showMessageDialog(this, "Exito: sucursal eliminado con exito.");
                 } else {
                     JOptionPane.showMessageDialog(this, "Error: sucursal no ha sido eliminado.");

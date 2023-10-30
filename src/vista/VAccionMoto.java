@@ -17,6 +17,7 @@ public class VAccionMoto extends javax.swing.JFrame {
      * Creates new form FrmInternalCrearCliente
      */
     int accion = 0; // Accion a relizar: 0 = Crear, 1 = Modificar, 2 = Eliminar
+
     public VAccionMoto(int accion) {
         initComponents();
         if (accion == 1) {
@@ -27,6 +28,12 @@ public class VAccionMoto extends javax.swing.JFrame {
             this.accion = accion;
             lblTitle.setText("Eliminar moto");
             labelCrear.setText("Eliminar");
+            txtModelo.setEnabled(false);
+            txtModelo.setText("Omite este campo");
+            txtLinea.setEnabled(false);
+            txtLinea.setText("Omite este campo");
+            txtCilindraje.setEnabled(false);
+            txtCilindraje.setText("Omite este campo");
         } else {
             txtId.setEnabled(false);
             txtId.setText("Omite este campo");
@@ -281,29 +288,31 @@ public class VAccionMoto extends javax.swing.JFrame {
     private void btnAccionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAccionMouseClicked
         DaoMoto crud = new DaoMoto();
         DtoMoto moto = new DtoMoto();
-        
-        moto.setId(Integer.parseInt(txtId.getText()));
-        moto.setModelo(Integer.parseInt(txtModelo.getText()));
-        moto.setLinea(txtLinea.getText());
-        moto.setCilindraje(Integer.parseInt(txtCilindraje.getText()));
-        
+
         switch (this.accion) {
             case 0:
+                moto.setModelo(Integer.parseInt(txtModelo.getText()));
+                moto.setLinea(txtLinea.getText());
+                moto.setCilindraje(Integer.parseInt(txtCilindraje.getText()));
                 if (crud.agregar(moto)) {
-                    JOptionPane.showMessageDialog(this, "Exito: Moto "+ txtLinea.getText() + " " + txtModelo.getText() +" agregado con exito.");
+                    JOptionPane.showMessageDialog(this, "Exito: Moto " + txtLinea.getText() + " " + txtModelo.getText() + " agregado con exito.");
                 } else {
                     JOptionPane.showMessageDialog(this, "Error: Moto no ha sido agregado.");
                 }
                 break;
             case 1:
+                moto.setModelo(Integer.parseInt(txtModelo.getText()));
+                moto.setLinea(txtLinea.getText());
+                moto.setCilindraje(Integer.parseInt(txtCilindraje.getText()));
+                moto.setId(Integer.parseInt(txtId.getText()));
                 if (crud.modificar(moto)) {
-                    JOptionPane.showMessageDialog(this, "Exito: Moto modificado con exito.");
+                    JOptionPane.showMessageDialog(this, "Exito: Moto modificada con exito.");
                 } else {
-                    JOptionPane.showMessageDialog(this, "Error: Moto no ha sido modificado.");
+                    JOptionPane.showMessageDialog(this, "Error: Moto no ha sido modificada.");
                 }
                 break;
             case 2:
-                if (crud.eliminar(moto)) {
+                if (crud.eliminar(Integer.parseInt(txtId.getText()))) {
                     JOptionPane.showMessageDialog(this, "Exito: Moto eliminado con exito.");
                 } else {
                     JOptionPane.showMessageDialog(this, "Error: Moto no ha sido eliminado.");
@@ -319,7 +328,7 @@ public class VAccionMoto extends javax.swing.JFrame {
     private void btnConsularMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConsularMouseClicked
         DaoMoto crud = new DaoMoto();
         DtoMoto moto = new DtoMoto();
-        
+
         moto.setId(Integer.parseInt(txtId.getText()));
         if (crud.consultar(moto)) {
             txtId.setText(String.valueOf(moto.getId()));

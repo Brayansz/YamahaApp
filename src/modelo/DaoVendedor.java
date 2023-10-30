@@ -27,15 +27,15 @@ public class DaoVendedor extends Conexion{
     public boolean modificar(DtoVendedor vendedor){
         PreparedStatement ops;
         Connection con = getConexion();
-        String stm = "UPDATE vendedor SET identificacion = ?, nombre = ?, apellido = ?, edad = ?, id_sucursal = ? WHERE identificacion = ?";
+        String stm = "UPDATE vendedor SET nombre = ?, apellido = ?, edad = ?, id_sucursal = ? WHERE identificacion = ?";
         
         try {
             ops = con.prepareStatement(stm);
-            ops.setString(1, vendedor.getIdentificacion());
-            ops.setString(2, vendedor.getNombre());
-            ops.setString(3, vendedor.getApellido());
-            ops.setInt(4, vendedor.getEdad());
-            ops.setInt(5, vendedor.getIdSucursal());
+            ops.setString(1, vendedor.getNombre());
+            ops.setString(2, vendedor.getApellido());
+            ops.setInt(3, vendedor.getEdad());
+            ops.setInt(4, vendedor.getIdSucursal());
+            ops.setString(5, vendedor.getIdentificacion());
             ops.execute();
             
             return true;    
@@ -70,14 +70,14 @@ public class DaoVendedor extends Conexion{
         }
     }
 
-    public boolean eliminar(DtoVendedor vendedor){
+    public boolean eliminar(String filtro){
         PreparedStatement ops = null;
         Connection con = getConexion();
-        String stm = "DELETE FROM sucursal WHERE identificacion = ?";
+        String stm = "DELETE FROM vendedor WHERE identificacion = ?";
         
         try {
             ops = con.prepareStatement(stm);
-            ops.setString(1, vendedor.getIdentificacion());
+            ops.setString(1, filtro);
             ops.execute();
             
             return true;    
@@ -95,7 +95,7 @@ public class DaoVendedor extends Conexion{
         // En caso de que se haga una busqueda
         if (filtro != "") filtro = "WHERE " + filtro;
         
-        String cadenaSQL = "SELECT * FROM vendedor" + filtro;
+        String cadenaSQL = "SELECT * FROM vendedor " + filtro;
         
         try {
             preparedStatement = connection.prepareStatement(cadenaSQL);

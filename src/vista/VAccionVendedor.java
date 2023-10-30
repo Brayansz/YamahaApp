@@ -17,6 +17,7 @@ public class VAccionVendedor extends javax.swing.JFrame {
      * Creates new form FrmInternalCrearCliente
      */
     int accion = 0; // Accion a relizar: 0 = Crear, 1 = Modificar, 2 = Eliminar
+
     public VAccionVendedor(int accion) {
         initComponents();
         if (accion == 1) {
@@ -292,15 +293,14 @@ public class VAccionVendedor extends javax.swing.JFrame {
     private void btnAccionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAccionMouseClicked
         DaoVendedor crud = new DaoVendedor();
         DtoVendedor vendedor = new DtoVendedor();
-        
-        vendedor.setIdentificacion(txtIdentificacion.getText());
-        vendedor.setNombre(txtNombre.getText());
-        vendedor.setApellido(txtApellido.getText());
-        vendedor.setEdad(Integer.parseInt(txtEdad.getText()));
-        vendedor.setIdSucursal(Integer.parseInt(txtIdSucursal.getText()));
-        
+
         switch (this.accion) {
             case 0:
+                vendedor.setIdentificacion(txtIdentificacion.getText());
+                vendedor.setNombre(txtNombre.getText());
+                vendedor.setApellido(txtApellido.getText());
+                vendedor.setEdad(Integer.parseInt(txtEdad.getText()));
+                vendedor.setIdSucursal(Integer.parseInt(txtIdSucursal.getText()));
                 if (crud.agregar(vendedor)) {
                     JOptionPane.showMessageDialog(this, "Exito: vendedor " + txtNombre.getText() + " " + txtApellido.getText() + " agregado con exito.");
                 } else {
@@ -308,6 +308,13 @@ public class VAccionVendedor extends javax.swing.JFrame {
                 }
                 break;
             case 1:
+                
+                vendedor.setIdentificacion(txtIdentificacion.getText());
+                vendedor.setNombre(txtNombre.getText());
+                vendedor.setApellido(txtApellido.getText());
+                vendedor.setEdad(Integer.parseInt(txtEdad.getText()));
+                vendedor.setIdSucursal(Integer.parseInt(txtIdSucursal.getText()));
+                
                 if (crud.modificar(vendedor)) {
                     JOptionPane.showMessageDialog(this, "Exito: vendedor modificado con exito.");
                 } else {
@@ -315,7 +322,7 @@ public class VAccionVendedor extends javax.swing.JFrame {
                 }
                 break;
             case 2:
-                if (crud.eliminar(vendedor)) {
+                if (crud.eliminar(txtIdentificacion.getText())) {
                     JOptionPane.showMessageDialog(this, "Exito: vendedor eliminado con exito.");
                 } else {
                     JOptionPane.showMessageDialog(this, "Error: vendedor no ha sido eliminado.");
@@ -331,16 +338,16 @@ public class VAccionVendedor extends javax.swing.JFrame {
     private void btnConsularMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConsularMouseClicked
         DaoVendedor crud = new DaoVendedor();
         DtoVendedor vendedor = new DtoVendedor();
-        
+
         vendedor.setIdentificacion(txtIdentificacion.getText());
         if (crud.consultar(vendedor)) {
-            
+
             txtIdentificacion.setText(vendedor.getIdentificacion());
             txtNombre.setText(vendedor.getNombre());
             txtApellido.setText(vendedor.getApellido());
             txtEdad.setText(String.valueOf(vendedor.getEdad()));
             txtIdSucursal.setText(String.valueOf(vendedor.getIdSucursal()));
-            
+
         } else {
             JOptionPane.showMessageDialog(this, "Error: vendedor no encontrado en la base de datos.");
         }

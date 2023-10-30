@@ -18,6 +18,7 @@ public class VAccionCliente extends javax.swing.JFrame {
      * Creates new form FrmInternalCrearCliente
      */
     int accion = 0; // Accion a relizar: 0 = Crear, 1 = Modificar, 2 = Eliminar
+
     public VAccionCliente(int accion) {
         initComponents();
         if (accion == 1) {
@@ -28,6 +29,14 @@ public class VAccionCliente extends javax.swing.JFrame {
             this.accion = accion;
             lblTitle.setText("Eliminar cliente");
             btnAccion.setText("Eliminar");
+            txtApellidos.setEnabled(false);
+            txtApellidos.setText("Omita este campo");
+            txtCorreo.setEnabled(false);
+            txtCorreo.setText("Omita este campo");
+            txtEdad.setEnabled(false);
+            txtEdad.setText("Omita este campo");
+            txtNombres.setEnabled(false);
+            txtNombres.setText("Omita este campo");
         }
     }
 
@@ -293,20 +302,25 @@ public class VAccionCliente extends javax.swing.JFrame {
     private void btnCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearMouseClicked
         DaoCliente crud = new DaoCliente();
         DtoCliente cliente = new DtoCliente();
-        cliente.setIdentificacion(txtIdentificacion.getText());
-        cliente.setNombre(txtNombres.getText());
-        cliente.setApellido(txtApellidos.getText());
-        cliente.setEdad(Integer.parseInt(txtEdad.getText()));
-        cliente.setCorreo(txtCorreo.getText());
         switch (this.accion) {
             case 0:
+                cliente.setIdentificacion(txtIdentificacion.getText());
+                cliente.setNombre(txtNombres.getText());
+                cliente.setApellido(txtApellidos.getText());
+                cliente.setEdad(Integer.parseInt(txtEdad.getText()));
+                cliente.setCorreo(txtCorreo.getText());
                 if (crud.agregar(cliente)) {
-                    JOptionPane.showMessageDialog(this, "Exito: Cliente "+ txtNombres.getText() + " " + txtApellidos.getText() +" agregado con exito.");
+                    JOptionPane.showMessageDialog(this, "Exito: Cliente " + txtNombres.getText() + " " + txtApellidos.getText() + " agregado con exito.");
                 } else {
                     JOptionPane.showMessageDialog(this, "Error: Cliente no ha sido agregado.");
                 }
                 break;
             case 1:
+                cliente.setIdentificacion(txtIdentificacion.getText());
+                cliente.setNombre(txtNombres.getText());
+                cliente.setApellido(txtApellidos.getText());
+                cliente.setEdad(Integer.parseInt(txtEdad.getText()));
+                cliente.setCorreo(txtCorreo.getText());
                 if (crud.modificar(cliente)) {
                     JOptionPane.showMessageDialog(this, "Exito: Cliente modificado con exito.");
                 } else {
@@ -314,7 +328,7 @@ public class VAccionCliente extends javax.swing.JFrame {
                 }
                 break;
             case 2:
-                if (crud.eliminar(cliente)) {
+                if (crud.eliminar(txtIdentificacion.getText())) {
                     JOptionPane.showMessageDialog(this, "Exito: Cliente eliminado con exito.");
                 } else {
                     JOptionPane.showMessageDialog(this, "Error: Cliente no ha sido eliminado.");
@@ -335,7 +349,7 @@ public class VAccionCliente extends javax.swing.JFrame {
             txtIdentificacion.setText(cliente.getIdentificacion());
             txtNombres.setText(cliente.getNombre());
             txtApellidos.setText(cliente.getApellido());
-            txtEdad.setText(""+ cliente.getEdad());
+            txtEdad.setText("" + cliente.getEdad());
             txtCorreo.setText(cliente.getCorreo());
         } else {
             JOptionPane.showMessageDialog(this, "Error: Cliente no encontrado en la base de datos.");

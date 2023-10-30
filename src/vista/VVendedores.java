@@ -263,7 +263,7 @@ public class VVendedores extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
-        cargarDatos("id = " + txtBuscar.getText());
+        cargarDatos("identificacion = " + txtBuscar.getText());
     }//GEN-LAST:event_btnBuscarMouseClicked
 
     private void btnCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearMouseClicked
@@ -343,7 +343,7 @@ public class VVendedores extends javax.swing.JPanel {
                     tableModel.setValueAt(clientes.getString("id_Sucursal"), i, 4);
                     i++;
                 }
-            } else if (filtro != "") {
+            } else if (!filtro.equals("")) {
                 JOptionPane.showMessageDialog(this, "Error: No exite en la base de datos");
             }
         } catch (SQLException ex) {
