@@ -3,7 +3,9 @@ package modelo;
 import java.util.Date;
 
 public class DtoVenta {
-    
+    /**
+     * 
+     */
     private int id;
     private String idVendedor;
     private String idCliente;

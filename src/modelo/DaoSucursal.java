@@ -16,7 +16,7 @@ public class DaoSucursal extends Conexion{
             
             return true;    
         } catch (SQLException e) {
-            System.err.println(e);
+            System.err.println("dsadas"+e);
             return false;
         }
     }
@@ -30,8 +30,8 @@ public class DaoSucursal extends Conexion{
             ops = con.prepareStatement(stm);
             ops.setString(1, sucursal.getNombre());
             ops.setInt(2, sucursal.getIdCiudad());
+            ops.setInt(3, sucursal.getId());
             ops.execute();
-            
             return true;    
         } catch (SQLException e) {
             System.err.println(e);
@@ -44,7 +44,6 @@ public class DaoSucursal extends Conexion{
         Connection con = getConexion();
         ResultSet rs;
         String stm = "SELECT * FROM sucursal WHERE id = ?";
-        
         try {
             ops = con.prepareStatement(stm);
             ops.setInt(1, sucursal.getId());

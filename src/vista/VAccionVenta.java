@@ -5,9 +5,10 @@
 package vista;
 
 import java.awt.Color;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -19,10 +20,8 @@ import modelo.*;
  */
 public class VAccionVenta extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrmInternalCrearCliente
-     */
     int accion = 0; // Accion a relizar: 0 = Crear, 1 = Modificar, 2 = Eliminar
+   
 
     public VAccionVenta(int accion) {
         initComponents();
@@ -30,6 +29,14 @@ public class VAccionVenta extends javax.swing.JFrame {
             this.accion = accion;
             lblTitle.setText("Modificar venta");
             labelCrear.setText("Modificar");
+            setLocationRelativeTo(null);
+            pack();
+            try {
+                llenarbox();
+                llenarvendedor();
+            } catch (SQLException ex) {
+                Logger.getLogger(VAccionVenta.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else if (accion == 2) {
             this.accion = accion;
             lblTitle.setText("Eliminar venta");
@@ -37,19 +44,32 @@ public class VAccionVenta extends javax.swing.JFrame {
             txtId.setForeground(Color.black);
             txtCliente.setEnabled(false);
             txtCliente.setText("Omite este campo");
-            txtFecha.setEnabled(false);
-            txtFecha.setText("Omite este campo");
+            calendariocaja.setEnabled(false);
             txtMonto.setEnabled(false);
             txtMonto.setText("Omite este campo");
-            txtMoto.setEnabled(false);
-            txtMoto.setText("Omite este campo");
-            txtTipoPago.setEnabled(false);
-            txtTipoPago.setText("Omite este campo");
-            txtVendedor.setEnabled(false);
-            txtVendedor.setText("Omite este campo");
+            Motocaja.setEnabled(false);
+            Tipopago.setEnabled(false);
+            Vendedorcaja.setEnabled(false);
+            setLocationRelativeTo(null);
+            try {
+                llenarbox();
+                llenarvendedor();
+            } catch (SQLException ex) {
+                Logger.getLogger(VAccionVenta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            pack();
+            
         } else {
             txtId.setEnabled(false);
             txtId.setText("Omite este campo");
+            setLocationRelativeTo(null);
+            pack();
+            try {
+                llenarbox();
+                llenarvendedor();
+            } catch (SQLException ex) {
+                Logger.getLogger(VAccionVenta.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -68,18 +88,18 @@ public class VAccionVenta extends javax.swing.JFrame {
         content = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
-        txtVendedor = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtMoto = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtCliente = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtMonto = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        txtFecha = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        txtTipoPago = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        calendariocaja = new com.toedter.calendar.JDateChooser();
+        Tipopago = new javax.swing.JComboBox<>();
+        Motocaja = new javax.swing.JComboBox<>();
+        Vendedorcaja = new javax.swing.JComboBox<>();
         buttons = new javax.swing.JPanel();
         btnAccion = new javax.swing.JPanel();
         labelCrear = new javax.swing.JLabel();
@@ -128,14 +148,8 @@ public class VAccionVenta extends javax.swing.JFrame {
             }
         });
 
-        txtVendedor.setFont(new java.awt.Font("SlimSansSerif", 0, 12)); // NOI18N
-        txtVendedor.setBorder(null);
-
         jLabel2.setFont(new java.awt.Font("SlimSansSerif", 0, 14)); // NOI18N
         jLabel2.setText("Vendedor");
-
-        txtMoto.setFont(new java.awt.Font("SlimSansSerif", 0, 12)); // NOI18N
-        txtMoto.setBorder(null);
 
         jLabel3.setFont(new java.awt.Font("SlimSansSerif", 0, 14)); // NOI18N
         jLabel3.setText("Moto");
@@ -152,17 +166,22 @@ public class VAccionVenta extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("SlimSansSerif", 0, 14)); // NOI18N
         jLabel6.setText("Monto");
 
-        txtFecha.setFont(new java.awt.Font("SlimSansSerif", 0, 12)); // NOI18N
-        txtFecha.setBorder(null);
-
         jLabel7.setFont(new java.awt.Font("SlimSansSerif", 0, 14)); // NOI18N
         jLabel7.setText("Fecha");
 
-        txtTipoPago.setFont(new java.awt.Font("SlimSansSerif", 0, 12)); // NOI18N
-        txtTipoPago.setBorder(null);
-
         jLabel8.setFont(new java.awt.Font("SlimSansSerif", 0, 14)); // NOI18N
         jLabel8.setText("Tipo de pago");
+
+        Tipopago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "seleccione", "Credito con sucursal", "Credito con banco", "Efectivo" }));
+
+        Motocaja.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "seleccione" }));
+        Motocaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MotocajaActionPerformed(evt);
+            }
+        });
+
+        Vendedorcaja.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "seleccione" }));
 
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
         content.setLayout(contentLayout);
@@ -170,22 +189,22 @@ public class VAccionVenta extends javax.swing.JFrame {
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contentLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
-                .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addComponent(txtTipoPago, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel7)
-                    .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel1)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(txtMoto, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addContainerGap(35, Short.MAX_VALUE))
+                    .addComponent(jLabel3)
+                    .addComponent(Tipopago, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(calendariocaja, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                    .addComponent(txtCliente)
+                    .addComponent(txtId)
+                    .addComponent(txtMonto)
+                    .addComponent(Motocaja, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Vendedorcaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,28 +216,28 @@ public class VAccionVenta extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Vendedorcaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtMoto, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Motocaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8)
-                .addGap(4, 4, 4)
-                .addComponent(txtTipoPago, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(Tipopago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(calendariocaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         background.add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 290, 440));
@@ -340,26 +359,53 @@ public class VAccionVenta extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    private void llenarbox() throws SQLException{
+        DaoMoto ob1 = new DaoMoto();
+        ResultSet rs = ob1.getMotos("");
+        while(rs.next()){
+            Motocaja.addItem(rs.getString("linea"));
+        }
+    }
+    
+    private void llenarvendedor() throws SQLException{
+        DaoVendedor ob1 = new DaoVendedor();
+        ResultSet rs = ob1.getVendedor("");
+        while(rs.next()){
+            Vendedorcaja.addItem(rs.getString("Nombre"));
+        }
+    }
+            
+    
+    
+    SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
     private void btnAccionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAccionMouseClicked
 
         DaoVenta crud = new DaoVenta();
         DtoVenta venta = new DtoVenta();
+        DaoVendedor ob1 = new DaoVendedor();
+
         SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
 
-        switch (this.accion) {
-            case 0:
-                venta.setIdVendedor(txtVendedor.getText());
-                venta.setIdMoto(Integer.parseInt(txtMoto.getText()));
+        int resultado = 0;
+        
+        switch (this.accion) { 
+            case 0:       
+                resultado = ob1.consultaid((String) Vendedorcaja.getSelectedItem());
+                //venta.setId(Integer.parseInt(txtId.getText()));
+                venta.setIdVendedor(String.valueOf(resultado));
+                venta.setIdMoto(Motocaja.getSelectedIndex());
                 venta.setIdCliente(txtCliente.getText());
-                venta.setIdTipoPago(Integer.parseInt(txtTipoPago.getText()));
+                venta.setIdTipoPago(Tipopago.getSelectedIndex());
                 try {
-                    java.util.Date utilDate = formato.parse(txtFecha.getText());
+                    String fecha = formato.format(calendariocaja.getDate());
+                    java.util.Date utilDate = formato.parse(fecha);
                     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); // Convertir a java.sql.Date
                     venta.setFecha(sqlDate);
                 } catch (ParseException ex) {
@@ -367,12 +413,31 @@ public class VAccionVenta extends javax.swing.JFrame {
                 }
                 venta.setMonto(Long.parseLong(txtMonto.getText()));
                 if (crud.agregar(venta)) {
-                    JOptionPane.showMessageDialog(this, "Exito: venta realizada por " + txtVendedor.getText() + " agregada con exito.");
+                    JOptionPane.showMessageDialog(this, "Exito: venta realizada por " + Vendedorcaja.getSelectedItem() + " agregada con exito.");
                 } else {
                     JOptionPane.showMessageDialog(this, "Error: la venta no ha sido agregada.");
                 }
                 break;
+
             case 1:
+                
+                resultado = ob1.consultaid((String) Vendedorcaja.getSelectedItem());
+                venta.setId(Integer.parseInt(txtId.getText()));
+                venta.setIdVendedor(String.valueOf(resultado));
+                venta.setIdMoto(Motocaja.getSelectedIndex());
+                venta.setIdCliente(txtCliente.getText());
+                venta.setIdTipoPago(Tipopago.getSelectedIndex());
+                try {
+                    String fecha = formato.format(calendariocaja.getDate());
+                    
+                    java.util.Date utilDate = formato.parse(fecha);
+                    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); // Convertir a java.sql.Date
+                    venta.setFecha(sqlDate);
+                } catch (ParseException ex) {
+                    System.out.println("Error al parsear la fecha" + ex);
+                }
+                venta.setMonto(Long.parseLong(txtMonto.getText()));
+                
                 if (crud.modificar(venta)) {
                     JOptionPane.showMessageDialog(this, "Exito: venta modificada con exito.");
                 } else {
@@ -399,15 +464,14 @@ public class VAccionVenta extends javax.swing.JFrame {
 
         venta.setId(Integer.parseInt(txtId.getText()));
         if (crud.consultar(venta)) {
-
-            txtId.setText(String.valueOf(venta.getId()));
-            txtVendedor.setText(venta.getIdVendedor());
-            txtMoto.setText(String.valueOf(venta.getIdMoto()));
+            //txtId.setText(String.valueOf(venta.getId())); 
+            //Vendedorcaja.setSelectedItem(venta.getIdVendedor());
+            //txtVendedor.setText(venta.getIdVendedor());
+            //txtMoto.setText(String.valueOf(venta.getIdMoto()));
             txtCliente.setText(venta.getIdCliente());
-            txtTipoPago.setText(String.valueOf(venta.getIdTipoPago()));
-            txtFecha.setText(String.valueOf(venta.getFecha()));
+            //txtTipoPago.setText(String.valueOf(venta.getIdTipoPago()));
+            calendariocaja.setDate(venta.getFecha());
             txtMonto.setText(String.valueOf(venta.getMonto()));
-
         } else {
             JOptionPane.showMessageDialog(this, "Error: venta no encontrado en la base de datos.");
         }
@@ -416,6 +480,10 @@ public class VAccionVenta extends javax.swing.JFrame {
     private void txtIdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtIdMouseClicked
         txtId.setForeground(Color.black);
     }//GEN-LAST:event_txtIdMouseClicked
+
+    private void MotocajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MotocajaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MotocajaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -580,11 +648,15 @@ public class VAccionVenta extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> Motocaja;
+    private javax.swing.JComboBox<String> Tipopago;
+    private javax.swing.JComboBox<String> Vendedorcaja;
     private javax.swing.JPanel background;
     private javax.swing.JPanel btnAccion;
     private javax.swing.JPanel btnConsular;
     private javax.swing.JPanel btnRegresar;
     private javax.swing.JPanel buttons;
+    private com.toedter.calendar.JDateChooser calendariocaja;
     private javax.swing.JPanel content;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
@@ -599,11 +671,7 @@ public class VAccionVenta extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitle;
     private javax.swing.JPanel top;
     private javax.swing.JTextField txtCliente;
-    private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtMonto;
-    private javax.swing.JTextField txtMoto;
-    private javax.swing.JTextField txtTipoPago;
-    private javax.swing.JTextField txtVendedor;
     // End of variables declaration//GEN-END:variables
 }

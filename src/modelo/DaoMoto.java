@@ -3,6 +3,7 @@ package modelo;
 import java.sql.*;
 
 public class DaoMoto extends Conexion {
+    
     public boolean agregar(DtoMoto moto) {
         PreparedStatement ops;
         Connection con = getConexion();
@@ -21,6 +22,7 @@ public class DaoMoto extends Conexion {
     }
     
     public boolean modificar(DtoMoto moto) {
+        //Tipo de dato para preparar las consultas sql
         PreparedStatement ops;
         Connection con = getConexion();
         String stm = "UPDATE moto SET modelo=?, linea=?, cilindraje=? WHERE id=?";
@@ -40,14 +42,17 @@ public class DaoMoto extends Conexion {
     
     public boolean consultar(DtoMoto moto) {
         PreparedStatement ops;
+        //Tipo de dato para preparar las consultas sql
         Connection con = getConexion();
+        //Resulset es el tipo de dato que devuelve una consulta
         ResultSet rs;
         String stm = "SELECT * FROM moto WHERE id=?" ;
         try {
             ops = con.prepareStatement(stm);
             ops.setInt(1, moto.getId());
-            rs = ops.executeQuery();
+            rs = ops.executeQuery();  
             if (rs.next()) {
+                //Integer, convirtiendo de texto a numero
                 moto.setId(Integer.parseInt(rs.getString("id")));
                 moto.setModelo(Integer.parseInt(rs.getString("modelo")));
                 moto.setLinea(rs.getString("linea"));
@@ -64,9 +69,7 @@ public class DaoMoto extends Conexion {
     public boolean eliminar(int filtro) {
         
         Connection con = getConexion();
-        
         String stm = "DELETE FROM moto WHERE id= ?";
-        
         try {
             PreparedStatement ops = con.prepareStatement(stm);
             ops.setInt(1, filtro);

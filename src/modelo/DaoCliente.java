@@ -2,12 +2,23 @@ package modelo;
 
 import java.sql.*;
 
+/**
+ *
+ * @author Brayan
+ */
+public class DaoCliente extends Conexion {
 
-public class DaoCliente extends Conexion{
+    /**
+     * Logica para registrar un cliente
+     *
+     * @param cliente
+     * @return
+     */
     public boolean agregar(DtoCliente cliente) {
         PreparedStatement ops;
         Connection con = getConexion();
         String stm = "INSERT INTO cliente (identificacion, nombre, apellido, edad, correo) VALUES (?, ?, ?, ?, ?)";
+        //Consulta sql, los ? indican los campos que necesitan valores
         try {
             ops = con.prepareStatement(stm);
             ops.setString(1, cliente.getIdentificacion());
@@ -23,10 +34,16 @@ public class DaoCliente extends Conexion{
         }
     }
     
+    /**
+     * Este metodo modifica un cliente en la base de datos
+     * @param cliente
+     * @return 
+     */
+
     public boolean modificar(DtoCliente cliente) {
         PreparedStatement ops;
         Connection con = getConexion();
-        String stm = "UPDATE cliente SET nombre=?, apellido=?, edad=?, correo=? WHERE identificacion=?" ;
+        String stm = "UPDATE cliente SET nombre=?, apellido=?, edad=?, correo=? WHERE identificacion=?";
         try {
             ops = con.prepareStatement(stm);
             ops.setString(1, cliente.getNombre());
@@ -41,12 +58,17 @@ public class DaoCliente extends Conexion{
             return false;
         }
     }
-    
+
+    /**
+     * Este metodo consulta un cliente de la base de datos
+     * @param cliente
+     * @return 
+     */
     public boolean consultar(DtoCliente cliente) {
         PreparedStatement ops;
         Connection con = getConexion();
         ResultSet rs;
-        String stm = "SELECT * FROM cliente WHERE identificacion=?" ;
+        String stm = "SELECT * FROM cliente WHERE identificacion=?";
         try {
             ops = con.prepareStatement(stm);
             ops.setString(1, cliente.getIdentificacion());
@@ -65,11 +87,11 @@ public class DaoCliente extends Conexion{
             return false;
         }
     }
-    
+
     public boolean eliminar(String filtro) {
         PreparedStatement ops = null;
         Connection con = getConexion();
-        String stm = "DELETE FROM cliente WHERE identificacion=?" ;
+        String stm = "DELETE FROM cliente WHERE identificacion=?";
         try {
             ops = con.prepareStatement(stm);
             ops.setString(1, filtro);
@@ -80,23 +102,26 @@ public class DaoCliente extends Conexion{
             return false;
         }
     }
-    
+
     public ResultSet getClientes(String filtro) {
+        
         ResultSet resultado = null;
         PreparedStatement preparedStatement = null;
         Connection connection = getConexion();
-        
+
         // En caso de que se haga una busqueda
-        if (filtro != "") filtro = "WHERE "+ filtro;
-        
-        String cadenaSQL = "SELECT * FROM cliente "+ filtro;
-        
+        if (filtro != "") {
+            filtro = "WHERE " + filtro;
+        }
+
+        String cadenaSQL = "SELECT * FROM cliente " + filtro;
+
         try {
             preparedStatement = connection.prepareStatement(cadenaSQL);
             resultado = preparedStatement.executeQuery();
         } catch (SQLException ex) {
-            System.out.println("Error: Consulta de la lista de clientes fallida: "+ ex);
-            System.out.println("CadenaSQL: "+ cadenaSQL);
+            System.out.println("Error: Consulta de la lista de clientes fallida: " + ex);
+            System.out.println("CadenaSQL: " + cadenaSQL);
         }
         return resultado;
     }

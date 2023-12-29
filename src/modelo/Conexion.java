@@ -3,9 +3,13 @@ package modelo;
 import java.sql.*;
 import java.util.Properties;
 
+/**
+ *
+ * @author Brayan
+ */
 public class Conexion {
 
-    private final String BD = "multinivel";
+    private final String BD = "base_de_datos";
     private final String HOST = "localhost";
     private final String USUARIO = "root";
     private final String CLAVE = "";
@@ -15,15 +19,14 @@ public class Conexion {
 
     private Connection conn = null;
 
+    /**
+     *
+     * @return
+     */
     public Connection getConexion() {
         try {
             Class.forName(DRIVER);
-            Properties properties = new Properties();
-            properties.setProperty("useSSL", "true");
-            properties.setProperty("requireSSL", "true");
-            properties.setProperty("verifyServerCertificate", "true");
-            conn = (Connection) DriverManager.getConnection(this.URL, this.USUARIO, this.CLAVE);
-            conn = DriverManager.getConnection(URL, properties);
+            conn = (Connection) DriverManager.getConnection(URL, USUARIO, CLAVE);
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println("Error: No se conecto a la base de datos." + e);
         }

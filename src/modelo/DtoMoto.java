@@ -1,6 +1,7 @@
 package modelo;
 
 public class DtoMoto {
+    
     private int id;
     private int modelo;
     private String linea;

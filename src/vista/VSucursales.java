@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import modelo.DaoCliente;
 import modelo.DaoSucursal;
 
 /**
@@ -54,6 +53,8 @@ public class VSucursales extends javax.swing.JPanel {
         jLabel14 = new javax.swing.JLabel();
         btnModificar = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
+        btncrearciudad = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(740, 510));
 
@@ -73,23 +74,23 @@ public class VSucursales extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("SlimSansSerif", 1, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("Crear");
+        jLabel12.setText("Crear sucursal");
 
         javax.swing.GroupLayout btnCrearLayout = new javax.swing.GroupLayout(btnCrear);
         btnCrear.setLayout(btnCrearLayout);
         btnCrearLayout.setHorizontalGroup(
             btnCrearLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btnCrearLayout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         btnCrearLayout.setVerticalGroup(
             btnCrearLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
-        background.add(btnCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 80, 30));
+        background.add(btnCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 130, 30));
 
         tblClientes.setFont(new java.awt.Font("SlimSansSerif", 0, 12)); // NOI18N
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
@@ -220,7 +221,7 @@ public class VSucursales extends javax.swing.JPanel {
             .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
-        background.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 140, -1, -1));
+        background.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 140, -1, -1));
 
         btnModificar.setBackground(new java.awt.Color(21, 25, 29));
         btnModificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -249,7 +250,36 @@ public class VSucursales extends javax.swing.JPanel {
             .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
-        background.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 140, 90, -1));
+        background.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 140, 90, -1));
+
+        btncrearciudad.setBackground(new java.awt.Color(21, 25, 29));
+        btncrearciudad.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btncrearciudad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btncrearciudadMouseClicked(evt);
+            }
+        });
+
+        jLabel16.setFont(new java.awt.Font("SlimSansSerif", 1, 14)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel16.setText("Crear Ciudad");
+
+        javax.swing.GroupLayout btncrearciudadLayout = new javax.swing.GroupLayout(btncrearciudad);
+        btncrearciudad.setLayout(btncrearciudadLayout);
+        btncrearciudadLayout.setHorizontalGroup(
+            btncrearciudadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btncrearciudadLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        btncrearciudadLayout.setVerticalGroup(
+            btncrearciudadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        background.add(btncrearciudad, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 140, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -268,7 +298,12 @@ public class VSucursales extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBuscarMouseClicked
 
     private void btnCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearMouseClicked
-        VAccionSucursal ventana = new VAccionSucursal(0);
+        VAccionSucursal ventana = null;
+        try {
+            ventana = new VAccionSucursal(0);
+        } catch (SQLException ex) {
+            Logger.getLogger(VSucursales.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
     }//GEN-LAST:event_btnCrearMouseClicked
@@ -278,7 +313,12 @@ public class VSucursales extends javax.swing.JPanel {
     }//GEN-LAST:event_btnActualizarMouseClicked
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
-        VAccionSucursal ventana = new VAccionSucursal(2);
+        VAccionSucursal ventana = null;
+        try {
+            ventana = new VAccionSucursal(2);
+        } catch (SQLException ex) {
+            Logger.getLogger(VSucursales.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
     }//GEN-LAST:event_btnEliminarMouseClicked
@@ -289,10 +329,26 @@ public class VSucursales extends javax.swing.JPanel {
     }//GEN-LAST:event_txtBuscarMouseClicked
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
-        VAccionSucursal ventana = new VAccionSucursal(1);
+        VAccionSucursal ventana = null;
+        try {
+            ventana = new VAccionSucursal(1);
+        } catch (SQLException ex) {
+            Logger.getLogger(VSucursales.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
     }//GEN-LAST:event_btnModificarMouseClicked
+
+    private void btncrearciudadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btncrearciudadMouseClicked
+        VAccionSucursal ventana = null;
+        try {
+            ventana = new VAccionSucursal(3);
+        } catch (SQLException ex) {
+            Logger.getLogger(VSucursales.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ventana.setLocationRelativeTo(null);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_btncrearciudadMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -303,12 +359,14 @@ public class VSucursales extends javax.swing.JPanel {
     private javax.swing.JPanel btnCrear;
     private javax.swing.JPanel btnEliminar;
     private javax.swing.JPanel btnModificar;
+    private javax.swing.JPanel btncrearciudad;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JPanel search;
     private javax.swing.JTable tblClientes;
     private javax.swing.JPanel top;

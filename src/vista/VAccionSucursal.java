@@ -4,10 +4,14 @@
  */
 package vista;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import modelo.DaoCliente;
+import modelo.DaoCiudad;
 import modelo.DaoSucursal;
-import modelo.DtoCliente;
+import modelo.DtoCiudad;
 import modelo.DtoSucursal;
 
 /**
@@ -20,23 +24,42 @@ public class VAccionSucursal extends javax.swing.JFrame {
      * Creates new form FrmInternalCrearCliente
      */
     int accion = 0; // Accion a relizar: 0 = Crear, 1 = Modificar, 2 = Eliminar
-    public VAccionSucursal(int accion) {
+    public VAccionSucursal(int accion) throws SQLException {
         initComponents();
         if (accion == 1) {
             this.accion = accion;
             lblTitle.setText("Modificar sucursal");
             labelCrear.setText("Modificar");
+            llenarciudades();
         } else if (accion == 2) {
             this.accion = accion;
             lblTitle.setText("Eliminar sucursal");
             labelCrear.setText("Eliminar");
-            txtCiudad.setEnabled(false);
-            txtCiudad.setText("Omite este campo");
+            Ciudadcaja.setEnabled(false);
             txtNombre.setEnabled(false);
             txtNombre.setText("Omite este campo");
+            llenarciudades();
+        } else if (accion ==3){
+            this.accion = accion;
+            Ciudadcaja.setEnabled(false);
+            txtId.setEnabled(false);
+            txtId.setText("Omite este campo");
+            
+            lblTitle.setText("Crear ciudad");
+            llenarciudades();
         } else {
             txtId.setEnabled(false);
             txtId.setText("Omite este campo");
+            llenarciudades();
+        }
+    }
+    
+    
+    private void llenarciudades() throws SQLException{
+        DaoCiudad ob1 = new DaoCiudad();
+        ResultSet rs = ob1.getCiudades("");
+        while(rs.next()){
+            Ciudadcaja.addItem(rs.getString("ciudad"));
         }
     }
 
@@ -57,8 +80,8 @@ public class VAccionSucursal extends javax.swing.JFrame {
         txtId = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtCiudad = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        Ciudadcaja = new javax.swing.JComboBox<>();
         buttons = new javax.swing.JPanel();
         btnAccion = new javax.swing.JPanel();
         labelCrear = new javax.swing.JLabel();
@@ -107,11 +130,10 @@ public class VAccionSucursal extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("SlimSansSerif", 0, 14)); // NOI18N
         jLabel2.setText("Nombre :");
 
-        txtCiudad.setFont(new java.awt.Font("SlimSansSerif", 0, 12)); // NOI18N
-        txtCiudad.setBorder(null);
-
         jLabel3.setFont(new java.awt.Font("SlimSansSerif", 0, 14)); // NOI18N
         jLabel3.setText("Ciudad");
+
+        Ciudadcaja.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione" }));
 
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
         content.setLayout(contentLayout);
@@ -119,13 +141,13 @@ public class VAccionSucursal extends javax.swing.JFrame {
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentLayout.createSequentialGroup()
                 .addContainerGap(36, Short.MAX_VALUE)
-                .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtId, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                     .addComponent(jLabel2)
-                    .addComponent(txtCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(Ciudadcaja, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(34, 34, 34))
         );
         contentLayout.setVerticalGroup(
@@ -141,9 +163,9 @@ public class VAccionSucursal extends javax.swing.JFrame {
                 .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Ciudadcaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(81, Short.MAX_VALUE))
         );
 
         background.add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 290, 340));
@@ -162,6 +184,11 @@ public class VAccionSucursal extends javax.swing.JFrame {
         labelCrear.setForeground(new java.awt.Color(255, 255, 255));
         labelCrear.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelCrear.setText("Crear");
+        labelCrear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelCrearMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout btnAccionLayout = new javax.swing.GroupLayout(btnAccion);
         btnAccion.setLayout(btnAccionLayout);
@@ -274,22 +301,30 @@ public class VAccionSucursal extends javax.swing.JFrame {
     private void btnAccionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAccionMouseClicked
         DaoSucursal crud = new DaoSucursal();
         DtoSucursal sucursal = new DtoSucursal();
-        
-        
-        
-        
+        DaoCiudad crud1 = new DaoCiudad();
+        DtoCiudad ciudad = new DtoCiudad();
+        int resultado = 0;
         switch (this.accion) {
             case 0:
+                
+                resultado = crud1.consultaid((String) Ciudadcaja.getSelectedItem());
                 sucursal.setNombre(txtNombre.getText());
-                sucursal.setIdCiudad(Integer.parseInt(txtCiudad.getText()));
-                if (crud.agregar(sucursal)) {
-                    JOptionPane.showMessageDialog(this, "Exito: sucursal "+ txtNombre.getText() + " " + txtCiudad.getText() +" agregado con exito.");
+                sucursal.setIdCiudad((resultado));
+                sucursal.setId(Integer.parseInt(txtId.getText()));
+                
+                if (crud.agregar(sucursal)) { 
+                    JOptionPane.showMessageDialog(this, "Exito: sucursal "+ txtNombre.getText() + " " + (String) Ciudadcaja.getSelectedItem() +" agregado con exito.");
                 } else {
                     JOptionPane.showMessageDialog(this, "Error: sucursal no ha sido agregado.");
                 }
                 break;
             case 1:
+                resultado = crud1.consultaid((String) Ciudadcaja.getSelectedItem());
+                sucursal.setNombre(txtNombre.getText());
+                sucursal.setIdCiudad((resultado));
+                sucursal.setId(Integer.parseInt(txtId.getText()));
                 if (crud.modificar(sucursal)) {
+                    System.out.println(txtNombre.getText() + resultado + txtId.getText());
                     JOptionPane.showMessageDialog(this, "Exito: sucursal modificado con exito.");
                 } else {
                     JOptionPane.showMessageDialog(this, "Error: sucursal no ha sido modificado.");
@@ -301,6 +336,14 @@ public class VAccionSucursal extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(this, "Error: sucursal no ha sido eliminado.");
                 }
+                break;
+            case 3:       
+                ciudad.setCiudad(txtNombre.getText());  
+                if(crud1.registrar(ciudad)){
+                    JOptionPane.showMessageDialog(this, "Exito: ciudad "+ txtNombre.getText() +" agregado con exito.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error: ciudad no ha sido agregado.");
+                }                 
                 break;
         }
     }//GEN-LAST:event_btnAccionMouseClicked
@@ -316,11 +359,16 @@ public class VAccionSucursal extends javax.swing.JFrame {
         if (crud.consultar(sucursal)) {
             txtId.setText(String.valueOf(sucursal.getId()));
             txtNombre.setText(sucursal.getNombre());
-            txtCiudad.setText(String.valueOf(sucursal.getIdCiudad()));
+            
+            //txtCiudad.setText(String.valueOf(sucursal.getIdCiudad()));
         } else {
             JOptionPane.showMessageDialog(this, "Error: Sucursal no encontrado en la base de datos.");
         }
     }//GEN-LAST:event_btnConsularMouseClicked
+
+    private void labelCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelCrearMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_labelCrearMouseClicked
 
     /**
      * @param args the command line arguments
@@ -383,12 +431,17 @@ public class VAccionSucursal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VAccionSucursal(0).setVisible(true);
+                try {
+                    new VAccionSucursal(0).setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(VAccionSucursal.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> Ciudadcaja;
     private javax.swing.JPanel background;
     private javax.swing.JPanel btnAccion;
     private javax.swing.JPanel btnConsular;
@@ -403,7 +456,6 @@ public class VAccionSucursal extends javax.swing.JFrame {
     private javax.swing.JLabel labelCrear;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JPanel top;
-    private javax.swing.JTextField txtCiudad;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables

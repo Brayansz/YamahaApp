@@ -29,18 +29,20 @@ public class DaoVenta extends Conexion {
     public boolean modificar(DtoVenta p){        
         PreparedStatement ops;
         Connection con = getConexion();
-        String stm = "UPDATE venta SET id_vendedor=?, id_cliente=?, id_tipo_pago=?, fecha=?, monto=?  WHERE id=?";
+        String stm = "UPDATE venta SET id_vendedor=?, id_moto=?, id_cliente=?, id_tipo_pago=?, fecha=?, monto=?  WHERE id=?";
         try{
             ops = con.prepareStatement(stm);            
             ops.setString(1, p.getIdVendedor());
-            ops.setString(2, p.getIdCliente());
-            ops.setInt(3, p.getIdTipoPago());
-            ops.setDate(4, (Date) p.getFecha());
-            ops.setLong(5, p.getMonto());
+            ops.setInt(2, p.getIdMoto());
+            ops.setString(3, p.getIdCliente());
+            ops.setInt(4, p.getIdTipoPago());
+            ops.setDate(5, (Date) p.getFecha());
+            ops.setLong(6, p.getMonto());
+            ops.setInt(7, p.getId()); 
             ops.execute();
             return true;
         }catch(SQLException e){
-            System.err.println(e);
+            System.err.println(e + "xd");
             return false;
         }        
     }
@@ -62,7 +64,6 @@ public class DaoVenta extends Conexion {
                 p.setIdTipoPago(Integer.parseInt(rs.getString("id_tipo_pago")));
                 p.setFecha(Date.valueOf(rs.getString("fecha")));
                 p.setMonto(Long.valueOf(rs.getString("monto")));
-                
                 return true;
             }
             return false;            

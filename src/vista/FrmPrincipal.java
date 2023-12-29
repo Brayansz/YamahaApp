@@ -420,7 +420,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         VMotos ventana = new VMotos(); 
         ventana.setSize(740, 510);
         ventana.setLocation(0, 0);
-       
         content.removeAll();
         content.add(ventana, BorderLayout.CENTER);
         content.revalidate();
@@ -431,7 +430,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         VVentas ventana = new VVentas(); 
         ventana.setSize(740, 510);
         ventana.setLocation(0, 0);
-       
         content.removeAll();
         content.add(ventana, BorderLayout.CENTER);
         content.revalidate();

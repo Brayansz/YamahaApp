@@ -1,8 +1,11 @@
 package modelo;
 
 public class DtoCiudad {
+    
     private int id;
     private String ciudad;
+    
+    
 
     public int getId() {
         return id;
@@ -18,6 +21,5 @@ public class DtoCiudad {
 
     public void setCiudad(String ciudad) {
         this.ciudad = ciudad;
-    }
-    
+    }    
 }

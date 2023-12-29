@@ -18,7 +18,7 @@ import modelo.*;
  * @author User
  */
 public class VVentas extends javax.swing.JPanel {
-
+    
     /**
      * Creates new form Clientes
      */
@@ -270,6 +270,7 @@ public class VVentas extends javax.swing.JPanel {
         VAccionVenta ventana = new VAccionVenta(0);
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
+        
     }//GEN-LAST:event_btnCrearMouseClicked
 
     private void btnActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarMouseClicked

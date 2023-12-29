@@ -1,6 +1,7 @@
 package modelo;
 
 public class DtoCliente {
+    
     private String identificacion;
     private String nombre;
     private String apellido;

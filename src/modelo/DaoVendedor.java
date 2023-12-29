@@ -1,6 +1,8 @@
 package modelo;
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DaoVendedor extends Conexion{
     public boolean agregar(DtoVendedor vendedor){
@@ -69,6 +71,49 @@ public class DaoVendedor extends Conexion{
             return false;
         }
     }
+    
+    public int consultaid(String nombre){
+        PreparedStatement preparedStatement = null;
+        Connection con = getConexion();
+        ResultSet resultado = null;
+        int id = -1;
+        String stm = "SELECT identificacion FROM vendedor WHERE nombre = ?";
+        try {
+            
+            preparedStatement = con.prepareStatement(stm);
+            preparedStatement.setString(1, nombre);
+            resultado = preparedStatement.executeQuery();
+            if (resultado.next()) {
+                id = resultado.getInt("identificacion");
+            }
+            System.out.println(nombre);
+            System.out.println(id);
+        } catch (SQLException ex) {
+            System.out.println("Error: Consulta del id del usuario: " + ex);
+            System.out.println("CadenaSQL: " + stm);
+        }
+        return id;
+    };
+    
+        public ResultSet getVendedor(String filtro) {
+        ResultSet resultado = null;
+        PreparedStatement preparedStatement = null;
+        Connection connection = getConexion();
+        
+        // En caso de que se haga una busqueda
+        if (filtro != "") filtro = "WHERE " + filtro;
+        
+        String cadenaSQL = "SELECT * FROM vendedor " + filtro;
+        
+        try {
+            preparedStatement = connection.prepareStatement(cadenaSQL);
+            resultado = preparedStatement.executeQuery();
+        } catch (SQLException ex) {
+            System.out.println("Error: Consulta de la lista de clientes fallida: " + ex);
+            System.out.println("CadenaSQL: " + cadenaSQL);
+        }
+        return resultado;
+    }          
 
     public boolean eliminar(String filtro){
         PreparedStatement ops = null;
@@ -87,25 +132,6 @@ public class DaoVendedor extends Conexion{
         }   
     }    
     
-    public ResultSet getVendedor(String filtro) {
-        ResultSet resultado = null;
-        PreparedStatement preparedStatement = null;
-        Connection connection = getConexion();
-        
-        // En caso de que se haga una busqueda
-        if (filtro != "") filtro = "WHERE " + filtro;
-        
-        String cadenaSQL = "SELECT * FROM vendedor " + filtro;
-        
-        try {
-            preparedStatement = connection.prepareStatement(cadenaSQL);
-            resultado = preparedStatement.executeQuery();
-        } catch (SQLException ex) {
-            System.out.println("Error: Consulta de la lista de clientes fallida: " + ex);
-            System.out.println("CadenaSQL: " + cadenaSQL);
-        }
-        return resultado;
-    }
     
 }
 
