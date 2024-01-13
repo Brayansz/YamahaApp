@@ -49,6 +49,7 @@ public class VAccionMoto extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         background = new javax.swing.JPanel();
         top = new javax.swing.JPanel();
         lblTitle = new javax.swing.JLabel();
@@ -68,6 +69,17 @@ public class VAccionMoto extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         btnConsular = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -284,13 +296,18 @@ public class VAccionMoto extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Este metodo contiene la logica del boton, dependiendo lo que se busque hara una accion en especifico.
+     * @param evt 
+     */
+    
     private void btnAccionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAccionMouseClicked
+        
         DaoMoto crud = new DaoMoto();
         DtoMoto moto = new DtoMoto();
-
         switch (this.accion) {
             case 0:
+                //Esta opcion nos tiene la implementacion de agregar moto
                 moto.setModelo(Integer.parseInt(txtModelo.getText()));
                 moto.setLinea(txtLinea.getText());
                 moto.setCilindraje(Integer.parseInt(txtCilindraje.getText()));
@@ -301,6 +318,7 @@ public class VAccionMoto extends javax.swing.JFrame {
                 }
                 break;
             case 1:
+                //Esta opcion tiene la implementacion para modificar moto
                 moto.setModelo(Integer.parseInt(txtModelo.getText()));
                 moto.setLinea(txtLinea.getText());
                 moto.setCilindraje(Integer.parseInt(txtCilindraje.getText()));
@@ -312,6 +330,7 @@ public class VAccionMoto extends javax.swing.JFrame {
                 }
                 break;
             case 2:
+                //Esta opcion tiene la implementacion para el moto
                 if (crud.eliminar(Integer.parseInt(txtId.getText()))) {
                     JOptionPane.showMessageDialog(this, "Exito: Moto eliminado con exito.");
                 } else {
@@ -325,7 +344,12 @@ public class VAccionMoto extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnRegresarMouseClicked
 
+    /**
+     * Este boton se encarga de consultar un cliente, esto usando el boton de consultar.
+     * @param evt 
+     */
     private void btnConsularMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConsularMouseClicked
+        
         DaoMoto crud = new DaoMoto();
         DtoMoto moto = new DtoMoto();
 
@@ -451,6 +475,7 @@ public class VAccionMoto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labelCrear;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JPanel top;

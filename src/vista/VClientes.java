@@ -7,8 +7,6 @@ package vista;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.DaoCliente;
@@ -314,6 +312,10 @@ public class VClientes extends javax.swing.JPanel {
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Este metodo carga los datos en la tabla clientes
+     * @param filtro 
+     */
     private void cargarDatos(String filtro) {
         DaoCliente daoCliente = new DaoCliente();
         ResultSet clientes = daoCliente.getClientes(filtro);

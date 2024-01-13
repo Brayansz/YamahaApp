@@ -298,7 +298,10 @@ public class VAccionCliente extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Este metodo contiene la logica del boton, dependiendo lo que se busque hara una accion en especifico.
+     * @param evt 
+     */
     private void btnCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearMouseClicked
         DaoCliente crud = new DaoCliente();
         DtoCliente cliente = new DtoCliente();
@@ -336,11 +339,18 @@ public class VAccionCliente extends javax.swing.JFrame {
                 break;
         }
     }//GEN-LAST:event_btnCrearMouseClicked
-
+    /**
+     * este boton cierra la ventana.
+     * @param evt 
+     */
     private void btnRegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarMouseClicked
         this.dispose();
     }//GEN-LAST:event_btnRegresarMouseClicked
 
+    /**
+     * Este boton se encarga de consultar un cliente, esto usando el boton de consultar.
+     * @param evt 
+     */
     private void btnConsularMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConsularMouseClicked
         DaoCliente crud = new DaoCliente();
         DtoCliente cliente = new DtoCliente();

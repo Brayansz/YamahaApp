@@ -440,7 +440,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         VSucursales ventana = new VSucursales(); 
         ventana.setSize(740, 510);
         ventana.setLocation(0, 0);
-       
         content.removeAll();
         content.add(ventana, BorderLayout.CENTER);
         content.revalidate();
@@ -451,7 +450,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         VClientes ventana =new VClientes(); 
         ventana.setSize(740, 510);
         ventana.setLocation(0, 0);
-       
         content.removeAll();
         content.add(ventana, BorderLayout.CENTER);
         content.revalidate();
@@ -462,7 +460,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         VVendedores ventana = new VVendedores(); 
         ventana.setSize(740, 510);
         ventana.setLocation(0, 0);
-       
         content.removeAll();
         content.add(ventana, BorderLayout.CENTER);
         content.revalidate();
@@ -473,13 +470,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
         VReportes ventana = new VReportes(); 
         ventana.setSize(740, 510);
         ventana.setLocation(0, 0);
-       
         content.removeAll();
         content.add(ventana, BorderLayout.CENTER);
         content.revalidate();
         content.repaint();
     }//GEN-LAST:event_btnReportesMouseClicked
 
+    private void setFecha() {
+        LocalDate hoy = LocalDate.now();
+        lblFecha.setText("Hoy es " + hoy.getDayOfMonth() + " de "+ hoy.getMonth().getDisplayName(TextStyle.FULL, new Locale("es", "ES")) + " del " + hoy.getYear());
+    }
     /**
      * @param args the command line arguments
      */
@@ -546,8 +546,4 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel top;
     // End of variables declaration//GEN-END:variables
 
-    private void setFecha() {
-        LocalDate hoy = LocalDate.now();
-        lblFecha.setText("Hoy es " + hoy.getDayOfMonth() + " de "+ hoy.getMonth().getDisplayName(TextStyle.FULL, new Locale("es", "ES")) + " del " + hoy.getYear());
-    }
 }

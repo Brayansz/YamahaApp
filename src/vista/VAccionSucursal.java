@@ -54,7 +54,10 @@ public class VAccionSucursal extends javax.swing.JFrame {
         }
     }
     
-    
+    /**
+     * metodo que carga las ciudades en la box
+     * @throws SQLException 
+     */
     private void llenarciudades() throws SQLException{
         DaoCiudad ob1 = new DaoCiudad();
         ResultSet rs = ob1.getCiudades("");
@@ -298,6 +301,10 @@ public class VAccionSucursal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Este metodo contiene la logica del boton, dependiendo lo que se busque hara una accion en especifico.
+     * @param evt 
+     */
     private void btnAccionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAccionMouseClicked
         DaoSucursal crud = new DaoSucursal();
         DtoSucursal sucursal = new DtoSucursal();
@@ -352,6 +359,10 @@ public class VAccionSucursal extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnRegresarMouseClicked
 
+    /**
+     * Boton para consultar sucursales
+     * @param evt 
+     */
     private void btnConsularMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConsularMouseClicked
         DaoSucursal crud = new DaoSucursal();
         DtoSucursal sucursal = new DtoSucursal();

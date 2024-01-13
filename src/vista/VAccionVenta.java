@@ -398,7 +398,6 @@ public class VAccionVenta extends javax.swing.JFrame {
         switch (this.accion) { 
             case 0:       
                 resultado = ob1.consultaid((String) Vendedorcaja.getSelectedItem());
-                //venta.setId(Integer.parseInt(txtId.getText()));
                 venta.setIdVendedor(String.valueOf(resultado));
                 venta.setIdMoto(Motocaja.getSelectedIndex());
                 venta.setIdCliente(txtCliente.getText());
@@ -464,12 +463,7 @@ public class VAccionVenta extends javax.swing.JFrame {
 
         venta.setId(Integer.parseInt(txtId.getText()));
         if (crud.consultar(venta)) {
-            //txtId.setText(String.valueOf(venta.getId())); 
-            //Vendedorcaja.setSelectedItem(venta.getIdVendedor());
-            //txtVendedor.setText(venta.getIdVendedor());
-            //txtMoto.setText(String.valueOf(venta.getIdMoto()));
             txtCliente.setText(venta.getIdCliente());
-            //txtTipoPago.setText(String.valueOf(venta.getIdTipoPago()));
             calendariocaja.setDate(venta.getFecha());
             txtMonto.setText(String.valueOf(venta.getMonto()));
         } else {

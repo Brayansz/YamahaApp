@@ -314,6 +314,10 @@ public class VVendedores extends javax.swing.JPanel {
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Este metodo carga los datos en la tabla vendedores
+     * @param filtro 
+     */
     private void cargarDatos(String filtro) {
         DaoVendedor daoVendedor = new DaoVendedor();
         ResultSet clientes = daoVendedor.getVendedor(filtro);

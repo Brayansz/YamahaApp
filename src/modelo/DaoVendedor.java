@@ -5,6 +5,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DaoVendedor extends Conexion{
+    
+    /**
+     * 
+     * @param vendedor
+     * @return 
+     */
     public boolean agregar(DtoVendedor vendedor){
         PreparedStatement ops;
         Connection con = getConexion();
@@ -95,7 +101,7 @@ public class DaoVendedor extends Conexion{
         return id;
     };
     
-        public ResultSet getVendedor(String filtro) {
+    public ResultSet getVendedor(String filtro) {
         ResultSet resultado = null;
         PreparedStatement preparedStatement = null;
         Connection connection = getConexion();

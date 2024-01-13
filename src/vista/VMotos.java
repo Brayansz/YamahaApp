@@ -312,6 +312,10 @@ public class VMotos extends javax.swing.JPanel {
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Este metodo carga los datos en la tabla motos
+     * @param filtro 
+     */
     private void cargarDatos(String filtro) {
         DaoMoto daoMoto = new DaoMoto();
         ResultSet clientes = daoMoto.getMotos(filtro);

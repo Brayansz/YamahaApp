@@ -25,7 +25,7 @@ public class DaoSucursal extends Conexion{
         PreparedStatement ops;
         Connection con = getConexion();
         String stm = "UPDATE sucursal SET nombre = ?, id_ciudad = ? WHERE id = ?";
-        
+        //los ops nos sirven para completar los datos que necesita la consulta
         try {
             ops = con.prepareStatement(stm);
             ops.setString(1, sucursal.getNombre());

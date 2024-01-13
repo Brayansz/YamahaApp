@@ -8,13 +8,9 @@ import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import modelo.DaoCliente;
 import modelo.DaoReportes;
-import modelo.DaoSucursal;
 
 /**
  *
@@ -28,6 +24,69 @@ public class VReportes extends javax.swing.JPanel {
     public VReportes() {
         initComponents();
         cargarDatosVentasDia();
+    }
+    
+        /**
+     * Este metodo carga los datos en la tabla reportes
+     */
+    private void cargarDatosVentasDia() {
+        DaoReportes daoReportes = new DaoReportes();
+        ResultSet ventasDia = daoReportes.getVentasDia();
+        int size, i = 0;
+        try {
+            if (ventasDia != null) {
+                // Obtiene el tamaño del ResultSet (Numero de registros).
+                ventasDia.last(); // Mueve el puntero al ultimo dato
+                size = ventasDia.getRow(); // Obtiene el numero de la fila
+                ventasDia.beforeFirst(); // Se mueve al inicio
+                
+                DefaultTableModel tableModel = new DefaultTableModel(new String []{"Sucursal", "Vendedor", "Monto de la venta"}, size);
+                tblReportes.setModel(tableModel);
+                
+                //Recorrido de datos...
+                while (ventasDia.next()) {
+                    tableModel.setValueAt(ventasDia.getString("sucursal"), i, 0);
+                    tableModel.setValueAt(ventasDia.getString("nombre") + " " + ventasDia.getString("apellido"), i, 1);
+                    tableModel.setValueAt(ventasDia.getString("monto"), i, 2);
+                    i++;
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "No existen registros en la base de datos");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error: No se pudo consultar la lista de clientes: "+ ex);
+        }
+    }
+
+    /**
+     * Metodo para filtrar por año
+     * @param filtro 
+     */
+    private void cargarDatosVentasAnio(String filtro) {
+        DaoReportes daoReportes = new DaoReportes();
+        ResultSet ventasAnio = daoReportes.getVentasAnio(filtro);
+        int size, i = 0;
+        try {
+            if (ventasAnio != null) {
+                // Obtiene el tamaño del ResultSet (Numero de registros).
+                ventasAnio.last(); // Mueve el puntero al ultimo dato
+                size = ventasAnio.getRow(); // Obtiene el numero de la fila
+                ventasAnio.beforeFirst(); // Se mueve al inicio
+                
+                DefaultTableModel tableModel = new DefaultTableModel(new String []{"Sucursal", "Vendedor", "Monto de la venta"}, size);
+                tblReportes.setModel(tableModel);
+                
+                //Recorrido de datos...
+                while (ventasAnio.next()) {
+                    tableModel.setValueAt(ventasAnio.getString("sucursal"), i, 0);
+                    tableModel.setValueAt(ventasAnio.getString("fecha"), i, 1);
+                    tableModel.setValueAt(ventasAnio.getString("monto"), i, 2);
+                    i++;
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error: No se pudo consultar la lista de clientes: "+ ex);
+        }
     }
 
     /**
@@ -235,59 +294,4 @@ public class VReportes extends javax.swing.JPanel {
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 
-    private void cargarDatosVentasDia() {
-        DaoReportes daoReportes = new DaoReportes();
-        ResultSet ventasDia = daoReportes.getVentasDia();
-        int size, i = 0;
-        try {
-            if (ventasDia != null) {
-                // Obtiene el tamaño del ResultSet (Numero de registros).
-                ventasDia.last(); // Mueve el puntero al ultimo dato
-                size = ventasDia.getRow(); // Obtiene el numero de la fila
-                ventasDia.beforeFirst(); // Se mueve al inicio
-                
-                DefaultTableModel tableModel = new DefaultTableModel(new String []{"Sucursal", "Vendedor", "Monto de la venta"}, size);
-                tblReportes.setModel(tableModel);
-                
-                //Recorrido de datos...
-                while (ventasDia.next()) {
-                    tableModel.setValueAt(ventasDia.getString("sucursal"), i, 0);
-                    tableModel.setValueAt(ventasDia.getString("nombre") + " " + ventasDia.getString("apellido"), i, 1);
-                    tableModel.setValueAt(ventasDia.getString("monto"), i, 2);
-                    i++;
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "No existen registros en la base de datos");
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error: No se pudo consultar la lista de clientes: "+ ex);
-        }
-    }
-
-    private void cargarDatosVentasAnio(String filtro) {
-        DaoReportes daoReportes = new DaoReportes();
-        ResultSet ventasAnio = daoReportes.getVentasAnio(filtro);
-        int size, i = 0;
-        try {
-            if (ventasAnio != null) {
-                // Obtiene el tamaño del ResultSet (Numero de registros).
-                ventasAnio.last(); // Mueve el puntero al ultimo dato
-                size = ventasAnio.getRow(); // Obtiene el numero de la fila
-                ventasAnio.beforeFirst(); // Se mueve al inicio
-                
-                DefaultTableModel tableModel = new DefaultTableModel(new String []{"Sucursal", "Vendedor", "Monto de la venta"}, size);
-                tblReportes.setModel(tableModel);
-                
-                //Recorrido de datos...
-                while (ventasAnio.next()) {
-                    tableModel.setValueAt(ventasAnio.getString("sucursal"), i, 0);
-                    tableModel.setValueAt(ventasAnio.getString("fecha"), i, 1);
-                    tableModel.setValueAt(ventasAnio.getString("monto"), i, 2);
-                    i++;
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error: No se pudo consultar la lista de clientes: "+ ex);
-        }
-    }
 }

@@ -41,10 +41,10 @@ public class Vprincipal extends javax.swing.JPanel {
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 130, 20));
 
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Yamaha movies png logo #3868 - Free Transparent PNG Logos (1).png"))); // NOI18N
-        add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 160, 131));
+        add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, 160, 131));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Incolmotos-Yamaha-moto-2-millones-FZ25-1024x576 (1).png"))); // NOI18N
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, 220, 120));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, 230, 120));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/rectangulo.png"))); // NOI18N
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 40, 250, 370));
